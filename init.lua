@@ -1,2 +1,5 @@
--- bootstrap lazy.nvim, LazyVim and your plugins
+-- ~/.config/nvim/lua/plugins/colorscheme.lua
+
+-- ~/.config/nvim/init.lua
 require("config.lazy")
+vim.cmd.colorscheme("moonlight")
