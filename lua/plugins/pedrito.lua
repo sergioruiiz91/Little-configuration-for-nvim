@@ -1,28 +1,22 @@
 -- ~/.config/nvim/lua/plugins/pedrito.lua
+-- ~/.config/nvim/lua/plugins/pedrito.lua
 
 local function set_pedrito_colors()
-  -- Cuerpo
-  vim.api.nvim_set_hl(0, "PBL", { fg = "#b3e5fc" }) -- azul muy claro (pecho)
-  vim.api.nvim_set_hl(0, "PBM", { fg = "#29b6f6" }) -- azul cielo vivo
-  vim.api.nvim_set_hl(0, "PBD", { fg = "#0288d1" }) -- azul medio
-  vim.api.nvim_set_hl(0, "PBX", { fg = "#01579b" }) -- azul oscuro
-  -- Acentos
-  vim.api.nvim_set_hl(0, "PCY", { fg = "#00e5ff" }) -- cyan eléctrico (cresta)
-  vim.api.nvim_set_hl(0, "PAC", { fg = "#40c4ff" }) -- azul acento ala
-  vim.api.nvim_set_hl(0, "PIC", { fg = "#80d8ff" }) -- azul hielo belly
-  -- Cola
-  vim.api.nvim_set_hl(0, "PTL", { fg = "#00b0ff" }) -- cola azul brillante
-  vim.api.nvim_set_hl(0, "PTM", { fg = "#0091ea" }) -- cola media
-  vim.api.nvim_set_hl(0, "PTD", { fg = "#1565c0" }) -- punta cola azul marino
-  -- Pico
-  vim.api.nvim_set_hl(0, "PBK", { fg = "#ffd54f" }) -- pico amarillo
-  vim.api.nvim_set_hl(0, "PBA", { fg = "#ffb300" }) -- pico ámbar
-  -- Ojo
-  vim.api.nvim_set_hl(0, "PEW", { fg = "#e3f2fd" }) -- ojo blanco azulado
-  vim.api.nvim_set_hl(0, "PEP", { fg = "#0d47a1" }) -- pupila azul marino
-  -- Patas
-  vim.api.nvim_set_hl(0, "PFT", { fg = "#4e342e" }) -- patas marrón
-  -- Nombre degradado cyan → marino
+  vim.api.nvim_set_hl(0, "PBL", { fg = "#b3e5fc" })
+  vim.api.nvim_set_hl(0, "PBM", { fg = "#29b6f6" })
+  vim.api.nvim_set_hl(0, "PBD", { fg = "#0288d1" })
+  vim.api.nvim_set_hl(0, "PBX", { fg = "#01579b" })
+  vim.api.nvim_set_hl(0, "PCY", { fg = "#00e5ff" })
+  vim.api.nvim_set_hl(0, "PAC", { fg = "#40c4ff" })
+  vim.api.nvim_set_hl(0, "PIC", { fg = "#80d8ff" })
+  vim.api.nvim_set_hl(0, "PTL", { fg = "#00b0ff" })
+  vim.api.nvim_set_hl(0, "PTM", { fg = "#0091ea" })
+  vim.api.nvim_set_hl(0, "PTD", { fg = "#1565c0" })
+  vim.api.nvim_set_hl(0, "PBK", { fg = "#ffd54f" })
+  vim.api.nvim_set_hl(0, "PBA", { fg = "#ffb300" })
+  vim.api.nvim_set_hl(0, "PEW", { fg = "#e3f2fd" })
+  vim.api.nvim_set_hl(0, "PEP", { fg = "#0d47a1" })
+  vim.api.nvim_set_hl(0, "PFT", { fg = "#4e342e" })
   vim.api.nvim_set_hl(0, "PCN", { fg = "#00e5ff" })
   vim.api.nvim_set_hl(0, "PN2", { fg = "#29b6f6" })
   vim.api.nvim_set_hl(0, "PN3", { fg = "#0288d1" })
@@ -31,18 +25,18 @@ local function set_pedrito_colors()
   vim.api.nvim_set_hl(0, "PSB", { fg = "#4fc3f7" })
 end
 
-vim.schedule(set_pedrito_colors)
+set_pedrito_colors()
 vim.api.nvim_create_autocmd("ColorScheme", { pattern = "*", callback = set_pedrito_colors })
 
--- ══════════════════════════════════════════════
---  HELPERS
--- ══════════════════════════════════════════════
-local nl = { "\n", "Normal" }
+-- Formato correcto para snacks: { "texto", hl = "GRUPO" }
 local function px(hl, n)
-  return { string.rep("██", n), hl }
+  return { string.rep("██", n), hl = hl }
 end
 local function sp(n)
-  return { string.rep("  ", n), "Normal" }
+  return { string.rep("  ", n) }
+end
+local function nl()
+  return { "\n" }
 end
 
 local parrot = {}
@@ -50,12 +44,9 @@ local function row(...)
   for _, seg in ipairs({ ... }) do
     table.insert(parrot, seg)
   end
-  table.insert(parrot, nl)
+  table.insert(parrot, nl())
 end
 
--- ══════════════════════════════════════════════
---  PEDRITO — pixel art azules vivos
--- ══════════════════════════════════════════════
 row(sp(6), px("PCY", 1), px("PAC", 1), px("PCY", 1), sp(7))
 row(sp(5), px("PBM", 1), px("PAC", 1), px("PIC", 1), px("PAC", 1), px("PBM", 1), sp(5))
 row(
@@ -125,44 +116,38 @@ row(px("PTL", 1), px("PTM", 1), px("PCY", 1), px("PFT", 2), px("PBD", 1), px("PT
 row(px("PTD", 1), px("PTL", 1), px("PCY", 1), px("PFT", 4), px("PTD", 1), px("PTL", 1), sp(2))
 row(px("PTD", 1), px("PTL", 1), px("PTM", 1), sp(7))
 
-table.insert(parrot, nl)
+table.insert(parrot, nl())
 
--- ══════════════════════════════════════════════
---  NOMBRE degradado cyan → marino
--- ══════════════════════════════════════════════
 for _, seg in ipairs({
   {
     "  ██████╗ ███████╗██████╗ ██████╗ ██╗████████╗ ██████╗ \n",
-    "PCN",
+    hl = "PCN",
   },
   {
     "  ██╔══██╗██╔════╝██╔══██╗██╔══██╗██║╚══██╔══╝██╔═══██╗\n",
-    "PN2",
+    hl = "PN2",
   },
   {
     "  ██████╔╝█████╗  ██║  ██║██████╔╝██║   ██║   ██║   ██║\n",
-    "PN3",
+    hl = "PN3",
   },
   {
     "  ██╔═══╝ ██╔══╝  ██║  ██║██╔══██╗██║   ██║   ██║   ██║\n",
-    "PN4",
+    hl = "PN4",
   },
   {
     "  ██║     ███████╗██████╔╝██║  ██║██║   ██║   ╚██████╔╝\n",
-    "PN5",
+    hl = "PN5",
   },
   {
     "  ╚═╝     ╚══════╝╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝ \n",
-    "PSB",
+    hl = "PSB",
   },
-  { "\n", "Normal" },
+  { "\n" },
 }) do
   table.insert(parrot, seg)
 end
 
--- ══════════════════════════════════════════════
---  PLUGIN — solo toca el dashboard de snacks
--- ══════════════════════════════════════════════
 return {
   {
     "folke/snacks.nvim",
