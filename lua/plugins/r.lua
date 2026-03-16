@@ -1,63 +1,76 @@
+-- ~/.config/nvim/lua/plugins/r.lua
 return {
-  -- DEPENDENCIA OBLIGATORIA: treesitter con los parsers que necesita R.nvim
   {
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "r",
-          "rnoweb",
-          "markdown",
-          "markdown_inline",
-          "yaml",
-          "latex",
-          "csv",
-        },
-        highlight = { enable = true },
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed or {}, {
+        "r",
+        "rnoweb",
+        "markdown",
+        "markdown_inline",
+        "yaml",
+        "latex",
+        "csv",
       })
     end,
   },
 
-  -- EL PLUGIN
   {
     "R-nvim/R.nvim",
     lazy = false,
     config = function()
       local opts = {
-        -- Auto-inicio al abrir .R, .Rmd, .qmd
         auto_start = "always",
         auto_quit = true,
-
-        -- Argumentos de R
         R_args = { "--quiet", "--no-save" },
-
-        -- Tamaño de ventanas
         min_editor_width = 72,
         rconsole_width = 78,
 
-        -- Remapear el localleader del plugin a <Space>r como prefijo
-        -- (LocalLeader sigue siendo \, pero aquí añadimos atajos propios)
         hook = {
           on_filetype = function()
-            local map = function(mode, key, plug)
-              vim.api.nvim_buf_set_keymap(0, mode, key, plug, { noremap = true, silent = true })
-            end
+            local wk = require("which-key")
+            wk.add({
 
-            -- Atajos con prefijo <Space>r en lugar de \
-            map("n", "<Space>rf", "<Plug>RStart")
-            map("n", "<Space>rq", "<Plug>RClose")
-            map("n", "<Space>rh", "<Plug>RHelp")
-            map("n", "<Space>ro", "<Plug>ROpenObjectBrowser")
-            map("n", "<Space>rp", "<Plug>RSendParagraph")
+              { "<Space>r", group = "R", buffer = 0 },
 
-            -- Enter para ejecutar línea / selección (muy cómodo)
-            map("n", "<Enter>", "<Plug>RDSendLine")
-            map("v", "<Enter>", "<Plug>RSendSelection")
+              -- Sesión
+              { "<Space>rf", "<Plug>RStart", desc = "INICIAR R", buffer = 0 },
+              { "<Space>rq", "<Plug>RClose", desc = "APAGAR R", buffer = 0 },
+
+              -- Enviar código
+              { "<Space>rd", "<Plug>RDSendLine", desc = "Enviar línea", buffer = 0 },
+              { "<Space>rp", "<Plug>RSendParagraph", desc = "Enviar párrafo", buffer = 0 },
+              { "<Space>ra", "<Plug>RSendFile", desc = "Enviar archivo", buffer = 0 },
+              { "<Space>rb", "<Plug>RSendMBlock", desc = "Enviar bloque", buffer = 0 },
+              { "<Space>rc", "<Plug>RSendChunk", desc = "Enviar chunk", buffer = 0 }, -- solo Rmd/qmd
+
+              -- Documentación
+              { "<Space>rh", "<Plug>RHelp", desc = "Ayuda función", buffer = 0 },
+              { "<Space>ri", "<Plug>RDSummary", desc = "summary(objeto)", buffer = 0 },
+              { "<Space>rn", "<Plug>RDNames", desc = "names(objeto)", buffer = 0 },
+              { "<Space>rt", "<Plug>RDStr", desc = "str(objeto)", buffer = 0 },
+
+              -- Workspace
+              { "<Space>ro", "<Plug>ROpenObjectBrowser", desc = "Object browser", buffer = 0 },
+              { "<Space>rl", "<Plug>RListSpace", desc = "ls() workspace", buffer = 0 },
+              { "<Space>rv", "<Plug>RViewDF", desc = "Ver dataframe", buffer = 0 },
+
+              -- Render (Rmd / qmd)
+              { "<Space>rr", "<Plug>RMakeRmd", desc = "Render Rmd/qmd", buffer = 0 },
+              { "<Space>rk", "<Plug>RMakePDFK", desc = "Compilar PDF", buffer = 0 },
+
+              -- Plots
+              { "<Space>rg", "<Plug>RPlot", desc = "Plot objeto", buffer = 0 },
+
+              -- Visual mode
+              { "<Space>rs", "<Plug>RSendSelection", desc = "Enviar selección", mode = "v", buffer = 0 },
+            })
+            -- Enter para ejecutar sigue igual
+            vim.api.nvim_buf_set_keymap(0, "n", "<Enter>", "<Plug>RDSendLine", { silent = true })
+            vim.api.nvim_buf_set_keymap(0, "v", "<Enter>", "<Plug>RSendSelection", { silent = true })
           end,
         },
 
-        -- Mapeos dentro del Object Browser
         objbr_mappings = {
           c = "class",
           s = "summary",
@@ -66,7 +79,6 @@ return {
           end,
         },
 
-        -- Comandos que probablemente no uses al principio
         disable_cmds = {
           "RClearConsole",
           "RCustomStart",
@@ -75,8 +87,6 @@ return {
         },
       }
 
-      -- Bonus: si lanzas nvim con R_AUTO_START=true (útil en terminal)
-      -- Ejemplo: alias r="R_AUTO_START=true nvim"
       if vim.env.R_AUTO_START == "true" then
         opts.auto_start = "on startup"
         opts.objbr_auto_start = true
