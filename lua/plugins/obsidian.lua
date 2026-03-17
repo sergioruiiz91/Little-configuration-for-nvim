@@ -1,39 +1,19 @@
 return {
   "obsidian-nvim/obsidian.nvim",
-  version = "*",
-  lazy = false,
-  enabled = function()
-    if vim.g.disable_obsidian then
-      return false
-    end
-
-    -- Busca .obsidian subiendo desde el directorio actual
-    local function find_obsidian_vault()
-      local path = vim.fn.getcwd()
-      local prev = nil
-      while path ~= prev do
-        if vim.fn.isdirectory(path .. "/.obsidian") == 1 then
-          return path
-        end
-        prev = path
-        path = vim.fn.fnamemodify(path, ":h")
-      end
-      -- También comprueba el home por defecto
-      if vim.fn.isdirectory(os.getenv("HOME") .. "/.config/obsidian/.obsidian") == 1 then
-        return os.getenv("HOME") .. "/.config/obsidian"
-      end
-      return nil
-    end
-
-    return find_obsidian_vault() ~= nil
-  end,
-
+  version = "*", -- usa la última estable
+  lazy = true,
+  -- carga el plugin solo si entras en una carpeta de Obsidian o abres un md
+  event = {
+    "BufReadPre " .. vim.fn.expand("~") .. "/**.md",
+    "BufNewFile " .. vim.fn.expand("~") .. "/**.md",
+  },
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "saghen/blink.cmp", -- Integración con tu autocompletado
   },
 
   opts = function()
-    -- Detecta el vault dinámicamente
+    -- FUNCIÓN: Detectar el vault dinámicamente (subiendo carpetas)
     local function find_obsidian_vault()
       local path = vim.fn.getcwd()
       local prev = nil
@@ -44,25 +24,42 @@ return {
         prev = path
         path = vim.fn.fnamemodify(path, ":h")
       end
-      if vim.fn.isdirectory(os.getenv("HOME") .. "/.config/obsidian/.obsidian") == 1 then
-        return os.getenv("HOME") .. "/.config/obsidian"
+      -- Fallback al home de obsidian si existe
+      local home_vault = os.getenv("HOME") .. "/.config/obsidian"
+      if vim.fn.isdirectory(home_vault .. "/.obsidian") == 1 then
+        return home_vault
       end
       return nil
     end
 
     local vault_path = find_obsidian_vault()
-    local vault_name = vault_path and vim.fn.fnamemodify(vault_path, ":t") or "notes"
+    local vault_name = vault_path and vim.fn.fnamemodify(vault_path, ":t") or "vault"
 
     return {
-      legacy_commands = false,
-
       workspaces = {
         {
-          name = vault_name, -- toma el nombre de la carpeta detectada
+          name = vault_name,
           path = vault_path or (os.getenv("HOME") .. "/.config/obsidian"),
         },
       },
 
+      -- Configuración de notas
+      notes_subdir = "notes",
+      log_level = vim.log.levels.INFO,
+
+      daily_notes = {
+        folder = "daily",
+        date_format = "%Y-%m-%d",
+        alias_format = "%B %-d, %Y",
+        template = "daily.md",
+      },
+
+      -- Integración con tu Picker (snacks.pick)
+      picker = {
+        name = "snacks.pick",
+      },
+
+      -- Formato de ID de nota (minúsculas y guiones)
       note_id_func = function(title)
         if title ~= nil then
           return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
@@ -71,55 +68,34 @@ return {
         end
       end,
 
-      daily_notes = {
-        folder = "daily",
-        date_format = "%Y-%m-%d",
-        template = "daily.md",
-      },
-
+      -- Completado estilo Obsidian
       completion = {
-        cmp = true,
+        nvim_cmp = false, -- desactiva cmp viejo
+        blink = true,    -- ACTIVA BLINK (tu motor actual)
         min_chars = 2,
       },
 
-      picker = {
-        name = "snacks.pick",
-      },
-
+      -- UI y símbolos
       ui = {
         enable = true,
         checkboxes = {
           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-          ["x"] = { char = "", hl_group = "ObsidianDone" },
-          [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+          ["x"] = { char = "󰄲", hl_group = "ObsidianDone" },
+          [">"] = { char = "󰭹", hl_group = "ObsidianRightArrow" },
           ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
         },
       },
 
+      -- Atajos automáticos al entrar en una nota
       callbacks = {
         enter_note = function(note)
-          if not note then
-            return
-          end
-          vim.keymap.set("n", "gf", function()
-            return require("obsidian").util.gf_passthrough()
-          end, { buffer = note.bufnr, expr = true, desc = "Obsidian follow link" })
-          vim.keymap.set("n", "<leader>ch", function()
-            return require("obsidian").util.toggle_checkbox()
-          end, { buffer = note.bufnr, desc = "Toggle checkbox" })
-          vim.keymap.set("n", "<cr>", function()
-            return require("obsidian").util.smart_action()
-          end, { buffer = note.bufnr, expr = true, desc = "Obsidian smart action" })
-          vim.keymap.set("n", "<Space>ob", "<Cmd>ObsidianBacklinks<CR>", { buffer = note.bufnr, desc = "Backlinks" })
-          vim.keymap.set("n", "<Space>ot", "<Cmd>ObsidianTags<CR>", { buffer = note.bufnr, desc = "Buscar por tags" })
+          if not note then return end
+          local b = note.bufnr
+          vim.keymap.set("n", "gf", function() return require("obsidian").util.gf_passthrough() end, { buffer = b, expr = true, desc = "Obsidian: Follow Link" })
+          vim.keymap.set("n", "<leader>ch", function() return require("obsidian").util.toggle_checkbox() end, { buffer = b, desc = "Obsidian: Toggle Checkbox" })
+          vim.keymap.set("n", "<cr>", function() return require("obsidian").util.smart_action() end, { buffer = b, expr = true, desc = "Obsidian: Smart Action" })
+          vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>", { buffer = b, desc = "Obsidian: Backlinks" })
         end,
-      },
-
-      templates = {
-        subdir = "templates",
-        date_format = "%Y-%m-%d-%a",
-        time_format = "%H:%M",
-        tags = "",
       },
     }
   end,

@@ -1,21 +1,38 @@
 return {
   "MeanderingProgrammer/render-markdown.nvim",
-  dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" }, -- if you use the mini.nvim suite
-  ---@module 'render-markdown'
-  ---@type render.md.UserConfig
+  dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+  ft = { "markdown", "rmd", "quarto" },
   opts = {
+    -- Estilo moderno tipo Obsidian
     heading = {
-      enabled = true,
       sign = true,
-      style = "full",
-      icons = { "① ", "② ", "③ ", "④ ", "⑤ ", "⑥ " },
-      left_pad = 1,
+      icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+      backgrounds = {
+        "RenderMarkdownH1Bg",
+        "RenderMarkdownH2Bg",
+        "RenderMarkdownH3Bg",
+        "RenderMarkdownH4Bg",
+        "RenderMarkdownH5Bg",
+        "RenderMarkdownH6Bg",
+      },
     },
-    bullet = {
+    code = {
+      sign = true,
+      width = "block",
+      right_pad = 4,
+    },
+    checkbox = {
       enabled = true,
-      icons = { "●", "○", "◆", "◇" },
-      right_pad = 1,
-      highlight = "render-markdownBullet",
+      unchecked = { icon = "󰄱 " },
+      checked = { icon = "󰄲 " },
+    },
+    callout = {
+      -- Soporte para callouts de Obsidian [!INFO], [!WARNING], etc.
+      note = { icon = "󰎟", title = "Note" },
+      tip = { icon = "󰌵", title = "Tip" },
+      important = { icon = "󰅒", title = "Important" },
+      warning = { icon = "󰀪", title = "Warning" },
+      caution = { icon = "󰳦", title = "Caution" },
     },
   },
 }
