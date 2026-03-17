@@ -27,6 +27,38 @@ return {
       end,
     },
   },
+  opts = {
+    defaults = {
+      prompt_prefix = " ",
+      selection_caret = " ",
+      -- Layout
+      layout_strategy = "horizontal",
+      layout_config = {
+        horizontal = {
+          prompt_position = "top",
+          preview_width = 0.55,
+          results_width = 0.8,
+        },
+        width = 0.87,
+        height = 0.80,
+        preview_cutoff = 120,
+      },
+      sorting_strategy = "ascending", -- resultados de arriba a abajo
+      winblend = 0, -- transparencia (0 = sin transparencia)
+      -- Ignorar estos patrones en las búsquedas
+      file_ignore_patterns = {
+        "node_modules",
+        ".git/",
+        "dist/",
+        "%.lock",
+      },
+    },
+    pickers = {
+      find_files = {
+        hidden = true, -- muestra archivos ocultos (.dotfiles)
+      },
+    },
+  },
 
   keys = {
 
