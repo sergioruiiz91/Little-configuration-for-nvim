@@ -1,4 +1,4 @@
--- lua/plugins/lang_pyhton_r.lua
+-- lua/plugins/lang_python_r.lua
 return {
   {
     "neovim/nvim-lspconfig",

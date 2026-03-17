@@ -1,6 +1,6 @@
 def __main__():
     print("Hello world")
-    x = int(input("Hola dame un puto numero"))
+    x = int(input("Hola dame un puto numero"))  # Copilot dime que me h
     print(x)
 
 

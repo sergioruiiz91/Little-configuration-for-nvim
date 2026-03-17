@@ -9,7 +9,6 @@ df <- data.frame(c(x, y))
 df
 f(4)
 # Buscame esta esta puta
-#
-
-
-x -> hola
+# Copipilot la cagaste
+# la integrales del 1 al 10 de x^2
+x -> 1

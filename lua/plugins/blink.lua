@@ -4,6 +4,7 @@ return {
     lazy = false,
     dependencies = {
       "saghen/blink.compat",
+      "fang2hou/blink-copilot", -- Corregido el nombre del repositorio
 
       -- snippets
       "L3MON4D3/LuaSnip",
@@ -17,13 +18,17 @@ return {
 
       local mathzone = require("config.latex_mathzone")
 
-      -- Fuentes de completado: ESTO es lo que te faltaba
+      -- Fuentes de completado
       opts.sources = opts.sources or {}
       opts.sources.default = {
         "lsp",
         "snippets",
         "path",
         "buffer",
+        "copilot",
+        "obsidian",
+        "obsidian_new",
+        "obsidian_tags",
 
         -- si quieres mantener los de avante:
         "avante_commands",
@@ -31,8 +36,33 @@ return {
         "avante_files",
       }
 
-      -- Mantén tus providers de avante (los tuyos ya estaban bien)
+      -- Mantén tus providers
       opts.sources.providers = opts.sources.providers or {}
+
+      -- Obsidian via blink.compat
+      opts.sources.providers.obsidian = {
+        name = "obsidian",
+        module = "blink.compat.source",
+      }
+      opts.sources.providers.obsidian_new = {
+        name = "obsidian_new",
+        module = "blink.compat.source",
+      }
+      opts.sources.providers.obsidian_tags = {
+        name = "obsidian_tags",
+        module = "blink.compat.source",
+      }
+      opts.sources.providers.copilot = {
+        name = "copilot",
+        module = "blink-copilot",
+        score_offset = 100,
+        async = true,
+        opts = {
+          max_completions = 3,
+          max_attempts = 4,
+        },
+      }
+
       opts.sources.providers.avante_commands = opts.sources.providers.avante_commands
         or {
           name = "avante_commands",
@@ -56,7 +86,6 @@ return {
         }
 
       -- Gate: snippets (LaTeX) sólo cuando estás en mathzone en md/rmd
-      -- (En .tex siempre se permite)
       opts.sources.providers.snippets = opts.sources.providers.snippets or {}
       opts.sources.providers.snippets.enabled = function()
         local ft = vim.bo.filetype
@@ -71,6 +100,33 @@ return {
       opts.completion.trigger = opts.completion.trigger or {}
       opts.completion.trigger.show_on_keyword = true
       opts.completion.trigger.show_on_insert_on_trigger_character = true
+
+      -- UI moderna (docs lateral)
+      opts.completion.documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 100,
+        treesitter_highlighting = true,
+        window = {
+          border = "rounded",
+          winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder",
+        },
+      }
+      opts.completion.menu = {
+        border = "rounded",
+        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder",
+        draw = {
+          columns = {
+            { "label", "label_description", gap = 1 },
+            { "kind_icon", "kind" },
+          },
+        },
+      }
+      opts.signature = {
+        enabled = true,
+        window = {
+          border = "rounded",
+        },
+      }
 
       return opts
     end,

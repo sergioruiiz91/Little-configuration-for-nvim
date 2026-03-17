@@ -23,6 +23,9 @@ local function set_pedrito_colors()
   vim.api.nvim_set_hl(0, "PN4", { fg = "#01579b" })
   vim.api.nvim_set_hl(0, "PN5", { fg = "#1565c0" })
   vim.api.nvim_set_hl(0, "PSB", { fg = "#4fc3f7" })
+  
+  -- Color de selección (MODO VISUAL) - Morado brillante
+  vim.api.nvim_set_hl(0, "Visual", { bg = "#8a2be2", fg = "#ffffff", bold = true })
 end
 
 set_pedrito_colors()

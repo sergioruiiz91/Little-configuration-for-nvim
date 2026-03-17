@@ -1,11 +1,7 @@
--- Requierements
---ImageMagick v6/v7
---rsvg-convert (from librsvg)
 return {
   "Thiago4532/mdmath.nvim",
   ft = { "markdown", "md", "rmd" },
   dependencies = { "nvim-treesitter/nvim-treesitter" },
-
   opts = {
     filetypes = { "markdown", "md", "rmd" },
     foreground = "Normal",
