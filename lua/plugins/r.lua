@@ -35,42 +35,22 @@ return {
           on_filetype = function()
             local wk = require("which-key")
             wk.add({
+              -- Acciones específicas de R (las genéricas están en runner.lua)
+              { "<leader>rd", group = " R Docs", buffer = 0 },
+              { "<leader>rdh", "<Plug>RHelp", desc = "Ayuda función", buffer = 0 },
+              { "<leader>rds", "<Plug>RDSummary", desc = "summary(objeto)", buffer = 0 },
+              { "<leader>rdn", "<Plug>RDNames", desc = "names(objeto)", buffer = 0 },
+              { "<leader>rdt", "<Plug>RDStr", desc = "str(objeto)", buffer = 0 },
 
-              { "<Space>r", group = "R", buffer = 0 },
+              { "<leader>rw", group = " R Workspace", buffer = 0 },
+              { "<leader>rwo", "<Plug>ROpenObjectBrowser", desc = "Object browser", buffer = 0 },
+              { "<leader>rwl", "<Plug>RListSpace", desc = "ls() workspace", buffer = 0 },
+              { "<leader>rwv", "<Plug>RViewDF", desc = "Ver dataframe", buffer = 0 },
 
-              -- Sesión
-              { "<Space>rf", "<Plug>RStart", desc = "INICIAR R", buffer = 0 },
-              { "<Space>rq", "<Plug>RClose", desc = "APAGAR R", buffer = 0 },
-
-              -- Enviar código
-              { "<Space>rd", "<Plug>RDSendLine", desc = "Enviar línea", buffer = 0 },
-              { "<Space>rp", "<Plug>RSendParagraph", desc = "Enviar párrafo", buffer = 0 },
-              { "<Space>ra", "<Plug>RSendFile", desc = "Enviar archivo", buffer = 0 },
-              { "<Space>rb", "<Plug>RSendMBlock", desc = "Enviar bloque", buffer = 0 },
-              { "<Space>rc", "<Plug>RSendChunk", desc = "Enviar chunk", buffer = 0 }, -- solo Rmd/qmd
-
-              -- Documentación
-              { "<Space>rh", "<Plug>RHelp", desc = "Ayuda función", buffer = 0 },
-              { "<Space>ri", "<Plug>RDSummary", desc = "summary(objeto)", buffer = 0 },
-              { "<Space>rn", "<Plug>RDNames", desc = "names(objeto)", buffer = 0 },
-              { "<Space>rt", "<Plug>RDStr", desc = "str(objeto)", buffer = 0 },
-
-              -- Workspace
-              { "<Space>ro", "<Plug>ROpenObjectBrowser", desc = "Object browser", buffer = 0 },
-              { "<Space>rl", "<Plug>RListSpace", desc = "ls() workspace", buffer = 0 },
-              { "<Space>rv", "<Plug>RViewDF", desc = "Ver dataframe", buffer = 0 },
-
-              -- Render (Rmd / qmd)
-              { "<Space>rr", "<Plug>RMakeRmd", desc = "Render Rmd/qmd", buffer = 0 },
-              { "<Space>rk", "<Plug>RMakePDFK", desc = "Compilar PDF", buffer = 0 },
-
-              -- Plots
-              { "<Space>rg", "<Plug>RPlot", desc = "Plot objeto", buffer = 0 },
-
-              -- Visual mode
-              { "<Space>rs", "<Plug>RSendSelection", desc = "Enviar selección", mode = "v", buffer = 0 },
+              -- Plotting
+              { "<leader>rg", "<Plug>RPlot", desc = "Plot objeto", buffer = 0 },
             })
-            -- Enter para ejecutar sigue igual
+            -- Enter para enviar línea sigue funcionando
             vim.api.nvim_buf_set_keymap(0, "n", "<Enter>", "<Plug>RDSendLine", { silent = true })
             vim.api.nvim_buf_set_keymap(0, "v", "<Enter>", "<Plug>RSendSelection", { silent = true })
           end,

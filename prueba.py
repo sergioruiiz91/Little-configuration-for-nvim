@@ -1,8 +1,7 @@
-def __main__():
+def hola():
     print("Hello world")
     x = int(input("Hola dame un puto numero"))  # Copilot dime que me h
     print(x)
 
 
-if __name__ == "__main__":
-    __main__()
+hola()
