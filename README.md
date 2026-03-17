@@ -4,6 +4,25 @@ Esta configuración está diseñada para un flujo de trabajo productivo en cienc
 
 ---
 
+## 🛠️ ¿Cómo Instalar? (Instalación Rápida)
+
+Si quieres instalar esta configuración en un nuevo equipo (Ubuntu/Debian), simplemente ejecuta el script automático:
+
+```bash
+# 1. Clona el repositorio (si lo has subido a GitHub)
+git clone https://github.com/tu-usuario/nvim-config.git ~/.config/nvim
+
+# 2. Dale permisos de ejecución al script
+chmod +x ~/.config/nvim/install.sh
+
+# 3. Ejecuta el instalador mágico
+./~/.config/nvim/install.sh
+```
+
+El script se encargará de hacer una **copia de seguridad** de tu configuración antigua, instalar dependencias de sistema y sincronizar todos los plugins de Lazy.nvim automáticamente.
+
+---
+
 ## 󱓧 Obsidian & Notas (Mnemotécnico <leader>n)
 Gestión completa de notas bajo el prefijo `<leader>n` (**N**otas). Estos atajos son globales y funcionan desde cualquier archivo.
 
