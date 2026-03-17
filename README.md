@@ -2,6 +2,41 @@
 
 Esta configuración está diseñada para un flujo de trabajo productivo en ciencia de datos (Python, R, LaTeX) y gestión de notas (Obsidian), integrando Copilot y una interfaz moderna tipo VSCode.
 
+---
+
+## 󱓧 Obsidian & Notas (Mnemotécnico <leader>n)
+Gestión completa de notas bajo el prefijo `<leader>n` (**N**otas). Estos atajos son globales y funcionan desde cualquier archivo.
+
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>no` | **󰍉 Open** | Abre el buscador rápido de notas (Quick Switch). |
+| `<leader>nn` | **󰐕 New** | Crea una nueva nota en tu Vault. |
+| `<leader>ns` | **󱎸 Search** | Busca texto dentro de todas tus notas (Grep). |
+| `<leader>nd` | **󰃭 Daily** | Abre o crea la nota de hoy. |
+| `<leader>nt` | **󰓹 Tags** | Busca notas filtrando por etiquetas. |
+| `<leader>nb` | **󰌹 Backlinks** | Muestra qué notas enlazan a la actual. |
+| `<leader>nc` | **󰄲 Checkbox** | Alterna el estado de una tarea (`[ ]` -> `[x]`). |
+| `<leader>ni` | **󰏪 Insert** | Inserta una plantilla (Template). |
+| `gf` | **Follow** | (Solo en Markdown) Salta a la nota vinculada. |
+
+---
+
+## 󰇥 Yazi (Explorador de Archivos Pro)
+Explorador de archivos ultra rápido escrito en Rust. Se abre como una ventana flotante central.
+
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>y` | **Open Yazi** | Abre Yazi en el directorio del archivo actual. |
+| `<leader>Y` | **Root Yazi** | Abre Yazi en el directorio raíz del proyecto. |
+
+**Navegación básica en Yazi:**
+*   `j`/`k`: Subir/Bajar.
+*   `h`/`l`: Atrás/Abrir carpeta o archivo.
+*   `<Enter>`: Abrir archivo en Neovim y cerrar Yazi.
+*   `q`: Cerrar sin abrir nada.
+
+---
+
 ## 󰚩 Runner Unificado (Python & R)
 Todos los comandos de ejecución viven bajo el prefijo `<leader>r`. Detecta automáticamente entornos virtuales (`.venv`) e IPython.
 
@@ -16,7 +51,7 @@ Todos los comandos de ejecución viven bajo el prefijo `<leader>r`. Detecta auto
 | `<leader>rtf` | **Terminal Float** | Abre una terminal flotante centrada. |
 | `<leader>rtv` | **Terminal Side** | Abre una terminal en el lateral derecho. |
 
-> **Truco:** En la terminal, pulsa `Esc` o `jk` para entrar en **Modo Normal** y navegar/copiar texto.
+> **Truco:** En cualquier terminal, pulsa `Esc` o `jk` para entrar en **Modo Normal** y navegar/copiar texto.
 
 ---
 
@@ -29,52 +64,49 @@ Gestión completa de IA bajo el prefijo `<leader>ñ`.
 | `<leader>ñr` | **Refresh Panel** | Recarga las sugerencias del panel. |
 | `<leader>ñe` | **Enable** | Activa Copilot. |
 | `<leader>ñd` | **Disable** | Desactiva Copilot. |
-| `<leader>ñs` | **Status** | Muestra el estado de la conexión. |
 | `Alt + l` | **Accept** | Acepta la sugerencia (Ghost Text). |
 | `Alt + h` | **Dismiss** | Rechaza/Cierra la sugerencia actual. |
 
 ---
 
-## 󰙏 Obsidian & Notas
-Atajos específicos cuando estás dentro de una nota de Obsidian.
-
+## 🔍 Otros Atajos Útiles
 | Atajo | Acción | Descripción |
 | :--- | :--- | :--- |
-| `gf` | **Follow Link** | Salta a la nota vinculada bajo el cursor. |
-| `<leader>ch` | **Checkbox** | Alterna el estado de una tarea (`- [ ]` -> `- [x]`). |
-| `<Enter>` | **Smart Action** | Acción inteligente (abrir link, checkbox, etc). |
-| `<leader>ob` | **Backlinks** | Muestra qué notas enlazan a la actual. |
-| `<leader>ot` | **Tags** | Busca notas por etiquetas. |
+| `<leader><space>` | **Find Files** | Buscador de archivos (Telescope). |
+| `<leader>/` | **Grep** | Buscar texto dentro de archivos. |
+| `<leader>,` | **Buffers** | Listar y cambiar entre archivos abiertos. |
+| `<leader>ml` | **MdMath** | Renderiza ecuaciones LaTeX en Markdown. |
 
 ---
 
-## 🔍 Diagnósticos & UI
-| Atajo | Acción | Descripción |
-| :--- | :--- | :--- |
-| `<leader>xx` | **Diagnostics** | Lista de errores de todo el proyecto (Trouble). |
-| `<leader>xX` | **Buffer Errors** | Lista de errores solo del archivo actual. |
-| `<leader>ul` | **Toggle Lines** | Alterna entre ver errores bajo el código o a la derecha. |
-| `<leader>cs` | **Symbols** | Muestra el árbol de funciones y variables del archivo. |
+## 📂 Estructura del Proyecto (Documentación)
+
+Tu configuración sigue la estructura modular de LazyVim:
+
+### ⚙️ `lua/config/`
+*   `options.lua`: Configuración básica (indentación, línea de comandos, PATH de Cargo/Snap).
+*   `keymaps.lua`: Atajos de teclado globales y generales de Neovim.
+*   `autocmds.lua`: Eventos automáticos (como el `ESC` en terminal).
+*   `lazy.lua`: Inicialización del gestor de plugins Lazy.nvim.
+
+### 🔌 `lua/plugins/` (Configuración de herramientas)
+*   **Lenguajes:**
+    *   `r.lua`: Soporte avanzado para lenguaje R.
+    *   `lang_python_r.lua`: Configuración de Servidores de Lenguaje (LSP) para Python y R.
+    *   `latex.lua`: Soporte para renderizado de matemáticas en Markdown.
+*   **Herramientas de Trabajo:**
+    *   `obsidian.lua`: Integración total con tu segundo cerebro (Obsidian).
+    *   `runner.lua`: El corazón de tu configuración para ejecutar código Python/R.
+    *   `yazi.lua`: Explorador de archivos ultra-rápido.
+*   **Interfaz y UI:**
+    *   `theme.lua` / `other_theme.lua`: Configuración de colores y apariencia.
+    *   `ui-modern.lua`: Personalización de bordes redondeados y menús.
+    *   `telescope.lua`: Buscador avanzado de archivos y texto.
+    *   `blink.lua`: Motor de autocompletado inteligente.
+    *   `copilot_config.lua`: Configuración del asistente de IA.
 
 ---
 
-## 📊 R Específicos
-| Atajo | Acción | Descripción |
-| :--- | :--- | :--- |
-| `<leader>rd` | **R Docs** | Menú de ayuda, summary, names y str de objetos. |
-| `<leader>rw` | **Workspace** | Browser de objetos y visor de DataFrames. |
-| `<leader>rg` | **Plot** | Envía el objeto bajo el cursor para graficarlo. |
-| `<Enter>` | **Send Line** | (En modo Normal/Visual) Envía el código a R. |
-
----
-
-## 📝 LaTeX & Markdown
-| Atajo | Acción | Descripción |
-| :--- | :--- | :--- |
-| `<leader>ml` | **MdMath Build** | Renderiza ecuaciones LaTeX en Markdown/Rmd. |
-
----
-
-## 🎨 Personalización
+## 🎨 Personalización Visual
 *   **Selección (`Visual`)**: El texto seleccionado se muestra en un **morado brillante** con letras blancas en negrita.
 *   **Interfaz**: Bordes redondeados en todos los menús de autocompletado y documentación lateral tipo VSCode.
