@@ -23,8 +23,13 @@ return {
         auto_start = "always",
         auto_quit = true,
         R_args = { "--quiet", "--no-save" },
+        -- Force horizontal (bottom) split:
+        rconsole_width = 0,
+
+        -- Set the bottom terminal height (pick what you like):
+        rconsole_height = 20,
+
         min_editor_width = 72,
-        rconsole_width = 78,
 
         hook = {
           on_filetype = function()
