@@ -1,9 +1,8 @@
--- lua/plugins/lang.lua
+-- lua/plugins/lang_pyhton_r.lua
 return {
   {
-    "nvim-lspconfig",
+    "neovim/nvim-lspconfig",
     opts = {
-      -- diagnósticos estilo VSCode
       diagnostics = {
         underline = true,
         update_in_insert = false,
@@ -15,15 +14,25 @@ return {
         severity_sort = true,
         signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.HINT] = " ",
-            [vim.diagnostic.severity.INFO] = " ",
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.HINT] = "",
+            [vim.diagnostic.severity.INFO] = "",
           },
         },
       },
+
       servers = {
-        -- Python
+        -- Markdown / Rmd
+        marksman = {},
+
+        -- LaTeX
+        texlab = {},
+
+        -- R
+        r_language_server = {},
+
+        -- Python (lo tuyo)
         pyright = {
           settings = {
             python = {
@@ -33,42 +42,6 @@ return {
                 useLibraryCodeForTypes = true,
                 diagnosticMode = "workspace",
               },
-            },
-          },
-        },
-        -- R
-        r_language_server = {
-          settings = {
-            r = {
-              lsp = { diagnostics = true },
-            },
-          },
-        },
-        -- keymaps para todos los LSP
-        ["*"] = {
-          keys = {
-            {
-              "gd",
-              function()
-                require("telescope.builtin").lsp_definitions({ reuse_win = true })
-              end,
-              desc = "Goto Definition",
-            },
-            {
-              "gr",
-              function()
-                require("telescope.builtin").lsp_references({
-                  include_declaration = true, -- ← incluye la propia definición
-                  show_line = true,
-                })
-              end,
-              desc = "References",
-              nowait = true,
-            },
-            {
-              "K",
-              vim.lsp.buf.hover,
-              desc = "Hover Docs",
             },
           },
         },
