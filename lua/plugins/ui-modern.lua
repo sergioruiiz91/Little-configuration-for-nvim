@@ -40,31 +40,6 @@ return {
     },
   },
 
-  -- ═══════════════════════════════════════
-  --  LSP LINES — errores inline bajo el código
-  --  (como VSCode muestra los squiggles + mensaje)
-  -- ═══════════════════════════════════════
-  {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    event = "LspAttach",
-    config = function()
-      require("lsp_lines").setup()
-      -- empieza desactivado, toggle con <leader>ul
-      vim.diagnostic.config({ virtual_lines = false, virtual_text = true })
-    end,
-    keys = {
-      {
-        "<leader>ul",
-        function()
-          local config = vim.diagnostic.config() or {}
-          if config.virtual_lines then
-            vim.diagnostic.config({ virtual_lines = false, virtual_text = true })
-          else
-            vim.diagnostic.config({ virtual_lines = true, virtual_text = false })
-          end
-        end,
-        desc = "Toggle LSP Lines",
-      },
-    },
-  },
+  -- LSP LINES removido para reducir ruido visual
+  -- (El usuario solo quiere ver fallos de sintaxis/errores)
 }

@@ -1,0 +1,18 @@
+# Hola  
+
+
+```{r}
+library(ggplot2)
+```
+
+
+$$
+f_{0}(x) = \sum_{n=1}^\infty f(x)   
+$$
+
+```{r}
+x <- 1:10
+plot(x,x)
+
+``` 
+

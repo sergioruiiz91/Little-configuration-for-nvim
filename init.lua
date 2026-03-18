@@ -2,4 +2,4 @@
 
 -- ~/.config/nvim/init.lua
 require("config.lazy")
-vim.cmd.colorscheme("moonlight")
+vim.cmd.colorscheme("oxocarbon")

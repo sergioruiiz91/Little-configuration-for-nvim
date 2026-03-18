@@ -3,7 +3,7 @@
 -- Add any additional options here
 vim.g.lazyvim_picker = "telescope"
 
--- Asegurar que Neovim encuentra los binarios de Cargo (Yazi, etc.) y Snap
+-- Asegurar que Neovim encuentra los binarios de Cargo y Snap
 local cargo_bin = vim.fn.expand("~/.cargo/bin")
 local snap_bin = "/snap/bin"
 

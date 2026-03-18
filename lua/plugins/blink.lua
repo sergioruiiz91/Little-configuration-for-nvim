@@ -26,9 +26,6 @@ return {
         "path",
         "buffer",
         "copilot",
-        "obsidian",
-        "obsidian_new",
-        "obsidian_tags",
 
         -- si quieres mantener los de avante:
         "avante_commands",
@@ -39,19 +36,6 @@ return {
       -- Mantén tus providers
       opts.sources.providers = opts.sources.providers or {}
 
-      -- Obsidian via blink.compat
-      opts.sources.providers.obsidian = {
-        name = "obsidian",
-        module = "blink.compat.source",
-      }
-      opts.sources.providers.obsidian_new = {
-        name = "obsidian_new",
-        module = "blink.compat.source",
-      }
-      opts.sources.providers.obsidian_tags = {
-        name = "obsidian_tags",
-        module = "blink.compat.source",
-      }
       opts.sources.providers.copilot = {
         name = "copilot",
         module = "blink-copilot",

@@ -12,4 +12,8 @@ f(4)
 # Buscame esta esta puta
 # Copipilot la cagaste
 # la integrales del 1 al 10 de x^2
-x <- 1
+x <- 1 
+
+$$
+f_(x) 
+$$

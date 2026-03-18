@@ -1,6 +1,6 @@
 # 🚀 Mi Configuración de Neovim (LazyVim + Python & R)
 
-Esta configuración está diseñada para un flujo de trabajo productivo en ciencia de datos (Python, R, LaTeX) y gestión de notas (Obsidian), integrando Copilot y una interfaz moderna tipo VSCode.
+Esta configuración está diseñada para un flujo de trabajo productivo en ciencia de datos (Python, R, LaTeX) y gestión de notas con Obsidian, integrando Copilot y una interfaz moderna tipo VSCode.
 
 ---
 
@@ -23,36 +23,79 @@ El script se encargará de hacer una **copia de seguridad** de tu configuración
 
 ---
 
-## 󱓧 Obsidian & Notas (Mnemotécnico <leader>n)
-Gestión completa de notas bajo el prefijo `<leader>n` (**N**otas). Estos atajos son globales y funcionan desde cualquier archivo.
+## 󱓧 Obsidian.nvim (Gestión de Notas)
+Plugin completo para gestionar tu bóveda de Obsidian directamente desde Neovim bajo el prefijo `<leader>n`.
 
+### Navegación y Búsqueda
 | Atajo | Acción | Descripción |
 | :--- | :--- | :--- |
-| `<leader>no` | **󰍉 Open** | Abre el buscador rápido de notas (Quick Switch). |
-| `<leader>nn` | **󰐕 New** | Crea una nueva nota en tu Vault. |
-| `<leader>ns` | **󱎸 Search** | Busca texto dentro de todas tus notas (Grep). |
-| `<leader>nd` | **󰃭 Daily** | Abre o crea la nota de hoy. |
-| `<leader>nt` | **󰓹 Tags** | Busca notas filtrando por etiquetas. |
-| `<leader>nb` | **󰌹 Backlinks** | Muestra qué notas enlazan a la actual. |
-| `<leader>nc` | **󰄲 Checkbox** | Alterna el estado de una tarea (`[ ]` -> `[x]`). |
-| `<leader>ni` | **󰏪 Insert** | Inserta una plantilla (Template). |
-| `gf` | **Follow** | (Solo en Markdown) Salta a la nota vinculada. |
+| `<leader>no` | **󰍉 Open/Switch** | Cambiar rápidamente entre notas del vault. |
+| `<leader>ns` | **󱎸 Search** | Buscar texto dentro de todas las notas (ripgrep). |
+| `<leader>nf` | **󰌹 Follow** | Seguir el enlace bajo el cursor. |
+| `<leader>nb` | **󰌹 Backlinks** | Ver qué notas enlazan a la actual. |
+| `<leader>nl` | **󰌹 Links** | Listar todos los enlaces en la nota actual. |
+| `gf` | **Follow Link** | (En markdown) Seguir enlace wiki/markdown. |
+| `<cr>` | **Smart Action** | Seguir enlace o alternar checkbox según contexto. |
+
+### Crear y Editar Notas
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>nn` | **󰐕 New** | Crear una nueva nota. |
+| `<leader>nt` | **󰏪 Template** | Insertar una plantilla en la nota actual. |
+| `<leader>nT` | **󰏪 New Template** | Crear nueva nota desde plantilla. |
+
+### Notas Diarias (Daily Notes)
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>ndd` | **󰃭 Today** | Abrir/crear nota de hoy. |
+| `<leader>ndy` | **󰃭 Yesterday** | Abrir/crear nota de ayer. |
+| `<leader>ndt` | **󰃭 Tomorrow** | Abrir/crear nota de mañana. |
+| `<leader>ndl` | **󰃭 List** | Listar notas diarias en picker. |
+
+### Tags y TOC
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>ng` | **󰓹 Tags** | Buscar notas por etiquetas. |
+| `<leader>nc` | **󰎚 TOC** | Ver tabla de contenidos de la nota. |
+
+### Links en Modo Visual
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>nl` | **󰌹 Link** | Vincular texto seleccionado a nota existente. |
+| `<leader>nL` | **󰌹 Link New** | Crear nueva nota y vincular texto. |
+| `<leader>ne` | **󰒢 Extract** | Extraer texto seleccionado a nueva nota. |
+
+### Utilidades
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>nx` | **󰄲 Checkbox** | Alternar estado de checkbox (`[ ]` → `[x]` → `[>]`). |
+| `<leader>np` | **󰥶 Paste Image** | Pegar imagen desde portapapeles. |
+| `<leader>nr` | **󰑕 Rename** | Renombrar nota y actualizar backlinks. |
+| `<leader>nw` | **󰉋 Workspace** | Cambiar entre workspaces. |
+| `<leader>nO` | **󰏋 Open App** | Abrir la nota en la app de Obsidian. |
+
+> **📝 Nota:** Tu vault de Obsidian está configurado en `~/.config/obsidian`. Las plantillas van en `templates/` y las imágenes en `assets/imgs/`.
 
 ---
 
-## 󰇥 Yazi (Explorador de Archivos Pro)
-Explorador de archivos ultra rápido escrito en Rust. Se abre como una ventana flotante central.
+## 󰏪 Oil.nvim (Explorador de Archivos Textual)
+Gestiona tu sistema de archivos como si fuera un buffer de texto normal bajo el prefijo `<leader>o` (**O**il).
 
 | Atajo | Acción | Descripción |
 | :--- | :--- | :--- |
-| `<leader>y` | **Open Yazi** | Abre Yazi en el directorio del archivo actual. |
-| `<leader>Y` | **Root Yazi** | Abre Yazi en el directorio raíz del proyecto. |
+| `<leader>oo` | **󰏪 Open** | Abre Oil en el directorio actual (buffer completo). |
+| `<leader>of` | **󰏪 Float** | Abre Oil en una ventana flotante centrada. |
+| `<leader>op` | **󰏪 Preview** | Alterna la ventana de previsualización (Imágenes/PDFs). |
 
-**Navegación básica en Yazi:**
-*   `j`/`k`: Subir/Bajar.
-*   `h`/`l`: Atrás/Abrir carpeta o archivo.
-*   `<Enter>`: Abrir archivo en Neovim y cerrar Yazi.
-*   `q`: Cerrar sin abrir nada.
+**Navegación y Edición en Oil:**
+*   **`-` (Guion)**: Sube un nivel de directorio (Carpeta padre).
+*   **`H`**: Cambia el directorio de trabajo (CWD) de Neovim a la carpeta actual.
+*   **`<Enter>`**: Abre el archivo o entra en la carpeta.
+*   **`<Ctrl-p>`**: Previsualización rápida del archivo.
+*   **`g.`**: Alterna visualización de archivos ocultos.
+*   **Edición**: Puedes renombrar, borrar o crear archivos editando el texto y guardando con `:w`.
+
+> **Nota:** Para ver imágenes y PDFs, pulsa `<leader>op` o `<Ctrl-p>` sobre el archivo. Requiere un terminal compatible (Kitty, WezTerm).
 
 ---
 
@@ -114,9 +157,9 @@ Tu configuración sigue la estructura modular de LazyVim:
     *   `lang_python_r.lua`: Configuración de Servidores de Lenguaje (LSP) para Python y R.
     *   `latex.lua`: Soporte para renderizado de matemáticas en Markdown.
 *   **Herramientas de Trabajo:**
-    *   `obsidian.lua`: Integración total con tu segundo cerebro (Obsidian).
+    *   `obsidian.lua`: Integración completa con Obsidian para gestión de notas.
     *   `runner.lua`: El corazón de tu configuración para ejecutar código Python/R.
-    *   `yazi.lua`: Explorador de archivos ultra-rápido.
+    *   `oil_images.lua`: Explorador textual con previsualización multimedia.
 *   **Interfaz y UI:**
     *   `theme.lua` / `other_theme.lua`: Configuración de colores y apariencia.
     *   `ui-modern.lua`: Personalización de bordes redondeados y menús.
