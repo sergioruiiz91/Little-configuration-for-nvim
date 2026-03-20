@@ -131,6 +131,19 @@ Gestión completa de IA bajo el prefijo `<leader>ñ`.
 
 ---
 
+## 󰊢 Git (Log, Status & Lazygit)
+Integración git completa bajo el prefijo `<leader>g`, usando **snacks.nvim** (incluido con LazyVim).
+
+| Atajo | Acción | Descripción |
+| :--- | :--- | :--- |
+| `<leader>gl` | **󰜘 Git Log (repo)** | Historial de commits del repositorio en un picker interactivo. |
+| `<leader>gL` | **󰜘 Git Log (archivo)** | Historial de commits del archivo actual. |
+| `<leader>gs` | **󰊢 Git Status** | Ver archivos modificados/staged en el picker. |
+| `<leader>gb` | **󰜘 Git Blame** | Mostrar el autor y commit de la línea actual. |
+| `<leader>gg` | **󰊢 Lazygit** | Abrir Lazygit (TUI git completo; requiere `lazygit` instalado). |
+
+---
+
 ## 🔍 Otros Atajos Útiles
 | Atajo | Acción | Descripción |
 | :--- | :--- | :--- |
@@ -166,6 +179,7 @@ Tu configuración sigue la estructura modular de LazyVim:
     *   `telescope.lua`: Buscador avanzado de archivos y texto.
     *   `blink.lua`: Motor de autocompletado inteligente.
     *   `copilot_config.lua`: Configuración del asistente de IA.
+    *   `git.lua`: Integración de git log, status, blame y lazygit.
 
 ---
 
